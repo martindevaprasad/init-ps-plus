@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { getAllUsers, getUserById, createUser, updateUser, deleteUser } from '../controllers/userController';
+import { authenticateToken, authorizeRole } from '../../../middleware/auth';
+const r = Router();
+r.get('/', authenticateToken, authorizeRole(['admin', 'manager']), getAllUsers);
+r.get('/:id', authenticateToken, getUserById);
+r.post('/', authenticateToken, authorizeRole(['admin', 'manager']), createUser);
+r.put('/:id', authenticateToken, authorizeRole(['admin', 'manager']), updateUser);
+r.delete('/:id', authenticateToken, authorizeRole(['admin']), deleteUser);
+export default r;

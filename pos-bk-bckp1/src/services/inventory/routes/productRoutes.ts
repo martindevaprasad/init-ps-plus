@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { getAllProducts, getProductById, createProduct, updateProduct, updateStock, deleteProduct } from '../controllers/productController';
+import { authenticateToken, authorizeRole } from '../../../middleware/auth';
+const r = Router();
+r.get('/', authenticateToken, getAllProducts);
+r.get('/:id', authenticateToken, getProductById);
+r.post('/', authenticateToken, authorizeRole(['admin', 'manager']), createProduct);
+r.put('/:id', authenticateToken, authorizeRole(['admin', 'manager']), updateProduct);
+r.patch('/:id/stock', authenticateToken, updateStock);
+r.delete('/:id', authenticateToken, authorizeRole(['admin', 'manager']), deleteProduct);
+export default r;

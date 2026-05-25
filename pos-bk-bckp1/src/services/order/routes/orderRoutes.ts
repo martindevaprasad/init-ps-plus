@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { getAllOrders, getOrderById, createOrder, updateOrderStatus, deleteOrder } from '../controllers/orderController';
+import { authenticateToken, authorizeRole } from '../../../middleware/auth';
+const r = Router();
+r.get('/', authenticateToken, getAllOrders);
+r.get('/:id', authenticateToken, getOrderById);
+r.post('/', authenticateToken, createOrder);
+r.patch('/:id/status', authenticateToken, updateOrderStatus);
+r.delete('/:id', authenticateToken, authorizeRole(['admin', 'manager']), deleteOrder);
+export default r;
